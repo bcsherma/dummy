@@ -1,0 +1,3 @@
+wandb
+*.npz
+*.envrc
