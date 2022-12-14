@@ -20,6 +20,8 @@ def main():
     parser.add_argument("model", help="model artifact to be evaluated")
     parser.add_argument("dataset", help="dataset to evaluate model on")
     args = parser.parse_args()
+    settings = wandb.Settings()
+    settings.update({"enable_job_creation": True})
     with wandb.init(job_type="evaluate") as run:
         model_artifact = run.use_artifact(args.model)
         run.config.update(model_artifact.metadata)

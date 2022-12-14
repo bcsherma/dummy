@@ -33,7 +33,7 @@ def build_model(config):
 
 def main():
     settings = wandb.Settings()
-    settings.update({"enable_job_ceation": True})
+    settings.update({"enable_job_creation": True})
     with wandb.init(config=DEFAULT_CONFIG, job_type="train", settings=settings) as run:
         data_artifact = run.use_artifact("mnist-data:latest")
         train_data = np.load(data_artifact.get_path("train").download())
