@@ -22,7 +22,7 @@ def main():
         "model": "wandb-artifact://bcanfieldsherman/sagemaker/mnist-model:latest",
         "dataset": "wandb-artifact://bcanfieldsherman/sagemaker/mnist-data:latest"
     }
-    with wandb.init(job_type="evaluate", config=default_config) as run:
+    with wandb.init(job_type="evaluate", config=default_config, settings=settings) as run:
         model = tf.keras.models.load_model(run.config.model.get_path("model").download())
         test_data = np.load(run.config.dataset.get_path("test").download())
         logits = model.predict(test_data["x"])
