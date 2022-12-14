@@ -16,18 +16,15 @@ def build_pred_table(dataset, logits):
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("model", help="model artifact to be evaluated")
-    parser.add_argument("dataset", help="dataset to evaluate model on")
-    args = parser.parse_args()
     settings = wandb.Settings()
     settings.update({"enable_job_creation": True})
-    with wandb.init(job_type="evaluate") as run:
-        model_artifact = run.use_artifact(args.model)
-        run.config.update(model_artifact.metadata)
-        data_artifact = run.use_artifact(args.dataset)
-        model = tf.keras.models.load_model(model_artifact.get_path("model").download())
-        test_data = np.load(data_artifact.get_path("test").download())
+    default_config = {
+        "model": "wandb-artifact://bcanfieldsherman/sagemaker/mnist-model:latest",
+        "dataset": "wandb-artifact://bcanfieldsherman/sagemaker/mnist-data:latest"
+    }
+    with wandb.init(job_type="evaluate", config=default_config) as run:
+        model = tf.keras.models.load_model(run.config.model.get_path("model").download())
+        test_data = np.load(run.config.dataset.get_path("test").download())
         logits = model.predict(test_data["x"])
         preds = np.argmax(logits, axis=1)
         loss = tf.keras.losses.SparseCategoricalCrossentropy()(test_data["y"], logits).numpy()

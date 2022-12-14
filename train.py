@@ -14,6 +14,7 @@ DEFAULT_CONFIG = {
     "metric": "accuracy",
     "epoch": 6,
     "batch_size": 256,
+    "dataset": "wandb-artifact://bcanfieldsherman/sagemaker/mnist-data:latest"
 }
 
 
@@ -35,7 +36,7 @@ def main():
     settings = wandb.Settings()
     settings.update({"enable_job_creation": True})
     with wandb.init(config=DEFAULT_CONFIG, job_type="train", settings=settings) as run:
-        data_artifact = run.use_artifact("mnist-data:latest")
+        data_artifact = run.config.dataset
         train_data = np.load(data_artifact.get_path("train").download())
         val_data = np.load(data_artifact.get_path("validation").download())
         model = build_model(run.config)
@@ -49,7 +50,7 @@ def main():
             callbacks=[logging_callback],
         )
         model.save("model.keras")
-        model_artifact = wandb.Artifact("mnist-model", "model", metadata=dict(run.config))
+        model_artifact = wandb.Artifact("mnist-model", "model")
         model_artifact.add_file("model.keras", name="model")
         run.log_artifact(model_artifact)
 
