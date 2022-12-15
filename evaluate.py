@@ -19,8 +19,8 @@ def main():
     settings = wandb.Settings()
     settings.update({"enable_job_creation": True})
     default_config = {
-        "model": "wandb-artifact://bcanfieldsherman/sagemaker/mnist-model:latest",
-        "dataset": "wandb-artifact://bcanfieldsherman/sagemaker/mnist-data:latest"
+        "model": "wandb-artifact://bcanfieldsherman/mnist-launch/mnist-model:latest",
+        "dataset": "wandb-artifact://bcanfieldsherman/mnist-launch/mnist-data:latest"
     }
     with wandb.init(job_type="evaluate", config=default_config, settings=settings) as run:
         model = tf.keras.models.load_model(run.config.model.get_path("model").download())

@@ -14,7 +14,7 @@ DEFAULT_CONFIG = {
     "metric": "accuracy",
     "epoch": 6,
     "batch_size": 256,
-    "dataset": "wandb-artifact://bcanfieldsherman/sagemaker/mnist-data:latest"
+    "dataset": "wandb-artifact://bcanfieldsherman/mnist-launch/mnist-data:latest"
 }
 
 
