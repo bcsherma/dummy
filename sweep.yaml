@@ -7,7 +7,7 @@ metric:
 scheduler:
   job: wandb/sweep-jobs/job-optuna-sweep-scheduler:latest
   resource: kubernetes
-  num_workers: 2
+  num_workers: 1
   settings:
     pruner:
       type: PercentilePruner
