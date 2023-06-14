@@ -1,9 +1,15 @@
-#!/bin/env python
 import wandb
+import random
 
-settings = wandb.Settings(enable_job_creation=True)
+config = dict(
+    learning_rate=0.01,
+    dropout=0.2,
+    batch_size=32,
+    epochs=10,
+    architecture="CNN",
+    gradient_accumulation_steps=2,
+)
 
-with wandb.init(settings=settings):
-    for i in range(100):
-        wandb.log({"metric": i})
-    
+with wandb.init(config=config):
+    for i in range(wandb.config.epochs):
+        wandb.log({"metric": i * random.random()})
